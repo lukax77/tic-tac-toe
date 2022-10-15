@@ -9,6 +9,16 @@ class Matrix:
         row, column = tup
         return self.matrix[row][column]
 
+    def __setitem__(self, tup, value):
+        row, column = tup
+        self.matrix[row][column] = value
+
+    def setValues(self, array):
+        if self.rows == len(array) and self.columns == len(array[0]):
+            for i in range(self.rows):
+                for j in range(self.columns):
+                    self[i, j] = array[i][j]
+
     def makeMatrix(self):
         m = []
         for i in range(self.rows):
@@ -24,10 +34,43 @@ class Matrix:
                 else:
                     print(f' {self[i, j]} ')
 
+    def product(self, b):
+        rows_a = self.rows          
+        columns_a = self.columns    
+        rows_b = b.rows             
+        columns_b = b.columns  
+
+        if columns_a != rows_b:
+            return None
+
+        result = Matrix(rows_a, columns_b) 
+        
+        for i in range(rows_a): 
+            for j in range(columns_b):
+                accumulator = 0
+                
+                for k in range(columns_a):
+                    accumulator += self[i, k] * b[k, j]
+
+                result[i, j] = accumulator
+        
+        return result
+
 
 def test():
+    a = [[3, 2, 1], [1, 1, 3], [0, 2, 1]]
     m = Matrix(3, 3)
+    m.setValues(a)
     m.to_string()
+
+    
+    b = [[2, 1], [1, 0], [3, 2]]
+    m2 = Matrix(3, 2)
+    m2.setValues(b)
+    m2.to_string()
+
+    r = m.product(m2)
+    r.to_string()
 
 
 if __name__ == '__main__':
