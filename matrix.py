@@ -41,7 +41,8 @@ class Matrix:
         columns_b = b.columns  
 
         if columns_a != rows_b:
-            return None
+            print('Error')
+            return Matrix(0, 0)
 
         result = Matrix(rows_a, columns_b) 
         
@@ -55,6 +56,29 @@ class Matrix:
                 result[i, j] = accumulator
         
         return result
+
+    def addition(self, b):
+        for i in range(self.rows):
+            for j in range(self.columns):
+                self[i, j] = self[i, j] + b[i, j]
+
+
+    def apply_function(self, f):
+        for i in range(self.rows):
+            for j in range(self.columns):
+                self[i, j] = f(self[i, j])
+                
+    def find_max_value(self):
+        max = self[0, 0]
+        row, col = 0, 0
+        for i in range(self.rows):
+            for j in range(self.columns):
+                if self[i, j] > max:
+                    max = self[i, j]
+                    row = i
+                    col = j
+
+        return (row, col, max)
 
 
 def test():
